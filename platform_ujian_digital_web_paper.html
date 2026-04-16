@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Platform Ujian Digital — Dokumen Teknis</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1814;
+    --ink-muted: #4a4843;
+    --ink-faint: #8a8780;
+    --paper: #faf9f6;
+    --paper-warm: #f4f1ec;
+    --paper-card: #ffffff;
+    --accent: #2d5a8e;
+    --accent-light: #e8f0f9;
+    --accent-alt: #8b3a2a;
+    --rule: #d8d4cc;
+    --rule-dark: #b8b4ac;
+    --success: #2d6a4f;
+    --warn: #8b5e1a;
+    --mono: 'JetBrains Mono', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; }
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    font-weight: 300;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.75;
+  }
+
+  /* COVER */
+  .cover {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 72px 64px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 79px,
+      rgba(255,255,255,0.03) 79px,
+      rgba(255,255,255,0.03) 80px
+    );
+    pointer-events: none;
+  }
+  .cover-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: rgba(255,255,255,0.4);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .cover-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(255,255,255,0.15);
+  }
+  .cover h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 52px;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.5px;
+    margin-bottom: 16px;
+    max-width: 640px;
+  }
+  .cover h1 span { color: rgba(255,255,255,0.45); }
+  .cover-sub {
+    font-size: 18px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 48px;
+    max-width: 540px;
+  }
+  .cover-meta {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  .cover-meta-item label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: rgba(255,255,255,0.35);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .cover-meta-item span {
+    font-size: 13px;
+    color: rgba(255,255,255,0.75);
+    font-weight: 400;
+  }
+  .tech-pills {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 32px;
+  }
+  .tech-pill {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.7);
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 4px 12px;
+    border-radius: 100px;
+    letter-spacing: 0.04em;
+  }
+
+  /* MAIN LAYOUT */
+  .main { max-width: 900px; margin: 0 auto; padding: 0 40px 80px; }
+
+  /* SECTION */
+  .section { margin-top: 64px; }
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 28px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .section-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-faint);
+    min-width: 28px;
+  }
+  .section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: -0.3px;
+  }
+
+  /* PROSE */
+  p { font-size: 15px; color: var(--ink-muted); margin-bottom: 14px; line-height: 1.8; }
+  p:last-child { margin-bottom: 0; }
+  strong { font-weight: 600; color: var(--ink); }
+
+  /* CALLOUT */
+  .callout {
+    background: var(--accent-light);
+    border-left: 3px solid var(--accent);
+    padding: 16px 20px;
+    border-radius: 0 6px 6px 0;
+    margin: 20px 0;
+  }
+  .callout p { color: var(--ink); font-size: 14px; margin: 0; }
+
+  /* FEATURE GRID */
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    margin-top: 20px;
+  }
+  .feature-card {
+    background: var(--paper-card);
+    border: 0.5px solid var(--rule);
+    border-radius: 10px;
+    padding: 20px;
+  }
+  .feature-card-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .feature-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+  .icon-blue { background: var(--accent-light); }
+  .icon-green { background: #e8f5e9; }
+  .icon-amber { background: #fff8e1; }
+  .icon-red { background: #fde8e8; }
+  .feature-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .feature-card ul {
+    list-style: none;
+    padding: 0;
+  }
+  .feature-card ul li {
+    font-size: 13px;
+    color: var(--ink-muted);
+    padding: 4px 0;
+    padding-left: 14px;
+    position: relative;
+    line-height: 1.5;
+  }
+  .feature-card ul li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--rule-dark);
+    font-size: 11px;
+  }
+
+  /* DIAGRAM CONTAINER */
+  .diagram-wrap {
+    background: var(--paper-card);
+    border: 0.5px solid var(--rule);
+    border-radius: 12px;
+    padding: 32px;
+    margin: 24px 0;
+    overflow-x: auto;
+  }
+  .diagram-caption {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-faint);
+    text-align: center;
+    margin-top: 16px;
+    letter-spacing: 0.06em;
+  }
+
+  /* FLOW TABLE */
+  .flow-table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+  .flow-table th {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    text-align: left;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .flow-table td {
+    font-size: 13px;
+    color: var(--ink-muted);
+    padding: 10px 12px;
+    border-bottom: 0.5px solid var(--rule);
+    vertical-align: top;
+  }
+  .flow-table tr:last-child td { border-bottom: none; }
+  .flow-table td:first-child {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    white-space: nowrap;
+    font-weight: 500;
+  }
+  .flow-table td strong { color: var(--ink); }
+
+  /* DB SCHEMA */
+  .schema-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 14px;
+    margin-top: 16px;
+  }
+  .table-card {
+    background: var(--paper-card);
+    border: 0.5px solid var(--rule);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .table-card-head {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 8px 14px;
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .table-card-head span.pk {
+    background: #c9a227;
+    color: #1a1814;
+    font-size: 9px;
+    padding: 1px 5px;
+    border-radius: 3px;
+    margin-left: auto;
+  }
+  .table-card-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 14px;
+    border-bottom: 0.5px solid var(--rule);
+    font-size: 12px;
+  }
+  .table-card-row:last-child { border-bottom: none; }
+  .table-card-row .col-name {
+    color: var(--ink);
+    font-family: var(--mono);
+    font-size: 11px;
+  }
+  .table-card-row .col-type {
+    color: var(--ink-faint);
+    font-family: var(--mono);
+    font-size: 10px;
+  }
+  .badge-pk { color: #c9a227; font-size: 9px; margin-right: 2px; }
+  .badge-fk { color: var(--accent); font-size: 9px; margin-right: 2px; }
+
+  /* RELATION LINE DIAGRAM */
+  .rel-wrap { overflow-x: auto; padding: 8px 0; }
+
+  /* SECURITY TABLE */
+  .security-table { width: 100%; border-collapse: collapse; }
+  .security-table thead th {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    text-align: left;
+    padding: 8px 14px;
+    background: var(--paper-warm);
+    border-bottom: 1px solid var(--rule);
+  }
+  .security-table td {
+    font-size: 13px;
+    color: var(--ink-muted);
+    padding: 10px 14px;
+    border-bottom: 0.5px solid var(--rule);
+    vertical-align: top;
+  }
+  .security-table tr:last-child td { border-bottom: none; }
+  .security-table td:first-child { font-weight: 600; color: var(--ink); font-size: 13px; }
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+  .badge-ok { background: #e8f5e9; color: var(--success); }
+  .badge-warn { background: #fff8e1; color: var(--warn); }
+  .badge-info { background: var(--accent-light); color: var(--accent); }
+
+  /* PRO CON */
+  .pro-con { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
+  .pro-box, .con-box {
+    background: var(--paper-card);
+    border: 0.5px solid var(--rule);
+    border-radius: 10px;
+    padding: 20px;
+  }
+  .pro-box { border-top: 3px solid #2d6a4f; }
+  .con-box { border-top: 3px solid #c0392b; }
+  .pro-box h4 { color: #2d6a4f; font-size: 13px; font-family: var(--mono); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 12px; }
+  .con-box h4 { color: #c0392b; font-size: 13px; font-family: var(--mono); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 12px; }
+  .pro-box ul, .con-box ul { list-style: none; padding: 0; }
+  .pro-box ul li, .con-box ul li { font-size: 13px; color: var(--ink-muted); padding: 4px 0 4px 16px; position: relative; line-height: 1.5; }
+  .pro-box ul li::before { content: '+'; position: absolute; left: 0; color: #2d6a4f; font-weight: 600; }
+  .con-box ul li::before { content: '−'; position: absolute; left: 0; color: #c0392b; font-weight: 600; }
+
+  /* FOOTER */
+  .doc-footer {
+    background: var(--ink);
+    color: rgba(255,255,255,0.35);
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 24px 64px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    letter-spacing: 0.06em;
+    margin-top: 80px;
+  }
+
+  /* TOC */
+  .toc {
+    background: var(--paper-warm);
+    border: 0.5px solid var(--rule);
+    border-radius: 10px;
+    padding: 24px 28px;
+    margin-top: 32px;
+  }
+  .toc-title {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 14px;
+  }
+  .toc-list { list-style: none; }
+  .toc-list li {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    padding: 5px 0;
+    border-bottom: 0.5px dashed var(--rule);
+    font-size: 14px;
+    color: var(--ink-muted);
+  }
+  .toc-list li:last-child { border-bottom: none; }
+  .toc-list li .toc-num { font-family: var(--mono); font-size: 11px; color: var(--ink-faint); min-width: 20px; }
+  .toc-list li::after { content: attr(data-page); margin-left: auto; font-family: var(--mono); font-size: 11px; color: var(--rule-dark); }
+
+  /* INLINE CODE */
+  code {
+    font-family: var(--mono);
+    font-size: 12px;
+    background: var(--paper-warm);
+    border: 0.5px solid var(--rule);
+    padding: 1px 6px;
+    border-radius: 4px;
+    color: var(--accent);
+  }
+
+  /* DIVIDER */
+  hr { border: none; border-top: 1px solid var(--rule); margin: 40px 0; }
+
+  /* HIGHLIGHT BOX */
+  .highlight-box {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin: 20px 0;
+  }
+  .stat-card {
+    background: var(--paper-card);
+    border: 0.5px solid var(--rule);
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+  }
+  .stat-card .stat-val {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .stat-card .stat-label {
+    font-size: 12px;
+    color: var(--ink-faint);
+    font-family: var(--mono);
+    letter-spacing: 0.06em;
+  }
+
+  @media (max-width: 600px) {
+    .cover { padding: 40px 24px; }
+    .cover h1 { font-size: 34px; }
+    .main { padding: 0 20px 60px; }
+    .pro-con { grid-template-columns: 1fr; }
+    .doc-footer { flex-direction: column; gap: 8px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-label">Dokumen Teknis &nbsp;·&nbsp; Arsitektur Perangkat Lunak</div>
+  <h1>Platform <span>Ujian</span> Digital</h1>
+  <div class="cover-sub">Sistem manajemen ujian berbasis web dengan pengelolaan peran siswa dan guru, evaluasi otomatis, serta pemantauan aktivitas secara langsung.</div>
+  <div class="cover-meta">
+    <div class="cover-meta-item">
+      <label>Versi</label>
+      <span>1.0.0 — Demo Lokal</span>
+    </div>
+    <div class="cover-meta-item">
+      <label>Pola Arsitektur</label>
+      <span>Monolitik Berlapis</span>
+    </div>
+    <div class="cover-meta-item">
+      <label>Tanggal Dokumen</label>
+      <span>April 2026</span>
+    </div>
+  </div>
+  <div class="tech-pills">
+    <span class="tech-pill">Next.js</span>
+    <span class="tech-pill">TypeScript</span>
+    <span class="tech-pill">Tailwind CSS</span>
+    <span class="tech-pill">Golang · Gin</span>
+    <span class="tech-pill">MySQL / MariaDB</span>
+    <span class="tech-pill">REST API</span>
+    <span class="tech-pill">bcrypt</span>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- TOC -->
+  <div class="toc">
+    <div class="toc-title">Daftar Isi</div>
+    <ul class="toc-list">
+      <li data-page="§1"><span class="toc-num">01</span> Latar Belakang &amp; Tujuan</li>
+      <li data-page="§2"><span class="toc-num">02</span> Deskripsi Fitur</li>
+      <li data-page="§3"><span class="toc-num">03</span> Arsitektur Sistem</li>
+      <li data-page="§4"><span class="toc-num">04</span> Alur Data Fitur Utama</li>
+      <li data-page="§5"><span class="toc-num">05</span> Skema Database</li>
+      <li data-page="§6"><span class="toc-num">06</span> Keamanan Sistem</li>
+      <li data-page="§7"><span class="toc-num">07</span> Keunggulan &amp; Keterbatasan</li>
+    </ul>
+  </div>
+
+  <!-- §1 LATAR BELAKANG -->
+  <div class="section" id="s1">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2>Latar Belakang &amp; Tujuan</h2>
+    </div>
+    <p>Pelaksanaan ujian secara konvensional menghadapi berbagai tantangan, mulai dari ketidakefisienan distribusi soal, penilaian yang memakan waktu, hingga kurangnya transparansi umpan balik kepada siswa. <strong>Platform Ujian Digital</strong> hadir sebagai solusi berbasis web yang dirancang untuk mendigitalisasi seluruh siklus ujian — dari pembuatan soal hingga publikasi nilai.</p>
+    <p>Sistem ini dibangun sebagai <strong>prototipe lokal</strong> yang dapat dioperasikan pada lingkungan pengembangan, dengan tujuan membuktikan kelayakan konsep sebelum diperluas ke skala produksi.</p>
+
+    <div class="callout">
+      <p><strong>Tujuan utama:</strong> Membangun platform ujian digital yang memungkinkan guru membuat dan mengelola ujian secara mandiri, siswa mengerjakan ujian dengan antarmuka yang intuitif, serta menyajikan penilaian otomatis dan umpan balik transparan kepada semua pihak.</p>
+    </div>
+
+    <div class="highlight-box">
+      <div class="stat-card">
+        <div class="stat-val">2</div>
+        <div class="stat-label">Peran Pengguna</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val">6</div>
+        <div class="stat-label">Endpoint Utama</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val">3</div>
+        <div class="stat-label">Lapisan Arsitektur</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val">5</div>
+        <div class="stat-label">Tabel Database</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- §2 FITUR -->
+  <div class="section" id="s2">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2>Deskripsi Fitur</h2>
+    </div>
+    <p>Sistem menyediakan dua antarmuka utama yang disesuaikan berdasarkan peran pengguna. Seluruh fitur dapat diakses melalui peramban web tanpa memerlukan pemasangan perangkat lunak tambahan di sisi klien.</p>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-card-head">
+          <div class="feature-icon icon-blue">🔐</div>
+          <h3>Autentikasi</h3>
+        </div>
+        <ul>
+          <li>Registrasi akun siswa &amp; guru</li>
+          <li>Login dengan verifikasi peran</li>
+          <li>Password di-hash dengan bcrypt</li>
+          <li>Sesi disimpan via Context API</li>
+        </ul>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-card-head">
+          <div class="feature-icon icon-green">📝</div>
+          <h3>Dashboard Siswa</h3>
+        </div>
+        <ul>
+          <li>Daftar ujian yang tersedia &amp; belum dikerjakan</li>
+          <li>Pengerjaan soal pilihan ganda &amp; esai dengan timer</li>
+          <li>Submit dan penilaian otomatis oleh backend</li>
+          <li>Riwayat dengan pembahasan lengkap</li>
+        </ul>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-card-head">
+          <div class="feature-icon icon-amber">🏫</div>
+          <h3>Dashboard Guru</h3>
+        </div>
+        <ul>
+          <li>Buat ujian (judul, mapel, durasi, soal)</li>
+          <li>Dua tipe soal: pilihan ganda &amp; esai</li>
+          <li>Kelola ujian: lihat detail, hapus</li>
+          <li>Rekap nilai semua siswa</li>
+        </ul>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-card-head">
+          <div class="feature-icon icon-red">📡</div>
+          <h3>Monitoring Real-Time</h3>
+        </div>
+        <ul>
+          <li>Siswa mengirim ping setiap 30 detik</li>
+          <li>Guru polling aktif setiap 10 detik</li>
+          <li>Menampilkan daftar siswa yang sedang online</li>
+          <li>Endpoint <code>POST /api/update-activity</code></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- §3 ARSITEKTUR -->
+  <div class="section" id="s3">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2>Arsitektur Sistem</h2>
+    </div>
+    <p>Sistem menggunakan pola <strong>arsitektur monolitik berlapis</strong> (layered monolith). Backend diorganisasi dalam tiga lapisan yang saling terpisah secara logis namun berjalan dalam satu proses, sehingga memudahkan pengembangan dan debugging pada tahap prototipe.</p>
+
+    <!-- Diagram Arsitektur Logika -->
+    <div class="diagram-wrap">
+      <svg width="100%" viewBox="0 0 820 520" role="img">
+        <title>Diagram Arsitektur Platform Ujian Digital</title>
+        <desc>Diagram arsitektur logika menunjukkan Frontend Next.js, Backend Golang Gin berlapis tiga, dan MySQL Database</desc>
+        <defs>
+          <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </marker>
+        </defs>
+
+        <!-- USER -->
+        <g>
+          <rect x="350" y="10" width="120" height="44" rx="8" fill="#1a1814" stroke="none"/>
+          <text x="410" y="37" text-anchor="middle" dominant-baseline="central" font-family="'Source Sans 3',sans-serif" font-size="13" font-weight="600" fill="#faf9f6">Pengguna</text>
+        </g>
+        <line x1="410" y1="54" x2="410" y2="76" stroke="#b8b4ac" stroke-width="1.5" marker-end="url(#arr)"/>
+
+        <!-- FRONTEND BOX -->
+        <rect x="60" y="76" width="700" height="145" rx="12" fill="#f0f4fb" stroke="#2d5a8e" stroke-width="1" stroke-dasharray="5 3"/>
+        <text x="84" y="100" font-family="'JetBrains Mono',monospace" font-size="11" fill="#2d5a8e" font-weight="500" letter-spacing="0.06em">FRONTEND — Next.js (localhost:3000)</text>
+
+        <rect x="88" y="110" width="170" height="50" rx="7" fill="#ffffff" stroke="#d8d4cc" stroke-width="0.8"/>
+        <text x="173" y="133" text-anchor="middle" dominant-baseline="central" font-family="'Source Sans 3',sans-serif" font-size="12" font-weight="600" fill="#1a1814">Components</text>
+        <text x="173" y="148" text-anchor="middle" dominant-baseline="central" font-family="'JetBrains Mono',monospace" font-size="10" fill="#8a8780">Navbar · Hero · Form</text>
+
+        <rect x="278" y="110" width="170" height="50" rx="7" fill="#ffffff" stroke="#d8d4cc" stroke-width="0.8"/>
+        <text x="363" y="133" text-anchor="middle" dominant-baseline="central" font-family="'Source Sans 3',sans-serif" font-size="12" font-weight="600" fill="#1a1814">State Management</text>
+        <text x="363" y="148" text-anchor="middle" dominant-baseline="central" font-family="'JetBrains Mono',monospace" font-size="10" fill="#8a8780">UserContext · SiswaCtx</text>
+
+        <rect x="468" y="110" width="170" height="50" rx="7" fill="#ffffff" stroke="#d8d4cc" stroke-width="0.8"/>
+        <text x="553" y="133" text-anchor="middle" dominant-baseline="central" font-family="'Source Sans 3',sans-serif" font-size="12" font-weight="600" fill="#1a1814">Dashboard UI</text>
+        <text x="553" y="148" text-anchor="middle" dominant-baseline="central" font-family="'JetBrains Mono',monospace" font-size="10" fill="#8a8780">Siswa · Guru · Auth</text>
+
+        <text x="410" y="198" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11" fill="#2d5a8e">↓ fetch() REST API + JSON</text>
+
+        <!-- ARROW FE -> BE -->
+        <line x1="410" y1="221" x2="410" y2="248" stroke="#2d5a8e" stroke-width="1.5" marker-end="url(#arr)"/>
+        <line x1="410" y1="248" x2="410" y2="266" stroke="#2d5a8e" stroke-width="1.5"/>
+
+        <!-- BACKEND BOX -->
+        <rect x="60" y="266" width="700" height="195" rx="12" fill="#fdf8f0" stroke="#8b3a2a" stroke-width="1" stroke-dasharray="5 3"/>
+        <text x="84" y="290" font-family="'JetBrains Mono',monospace" font-size="11" fill="#8b3a2a" font-weight="500" letter-spacing="0.06em">BACKEND — Golang Gin (localhost:8080)</text>
+
+        <!-- Layer 1: Presentation -->
+        <rect x="88" y="302" width="186" height="60" rx="7" fill="#ffffff" stroke="#d8d4cc" stroke-width="0.8"/>
+        <text x="181" y="320" text-anchor="middle" dominant-baseline="central" font-family="'Source Sans 3',sans-serif" font-size="12" font-weight="600" fill="#1a1814">Lapisan Presentasi</text>
+        <text x="181" y="337" text-anchor="middle" dominant-baseline="central" font-family="'JetBrains Mono',monospace" font-size="10" fill="#8a8780">Router + Controller/Handler</text>
+        <text x="181" y="352" text-anchor="middle" dominant-baseline="central" font-family="'JetBrains Mono',monospace" font-size="10" fill="#c9a227">Layer 1 — Presentation</text>
+
+        <!-- Arrow L1 -> L2 -->
+        <line x1="274" y1="332" x2="310" y2="332" stroke="#b8b4ac" stroke-width="1" marker-end="url(#arr)"/>
+        <line x1="548" y1="332" x2="520" y2="332" stroke="#b8b4ac" stroke-width="1" marker-end="url(#arr)"/>
+
+        <!-- Layer 2: Business -->
+        <rect x="310" y="302" width="210" height="60" rx="7" fill="#ffffff" stroke="#d8d4cc" stroke-width="0.8"/>
+        <text x="415" y="320" text-anchor="middle" dominant-baseline="central" font-family="'Source Sans 3',sans-serif" font-size="12" font-weight="600" fill="#1a1814">Lapisan Bisnis</text>
+        <text x="415" y="337" text-anchor="middle" dominant-baseline="central" font-family="'JetBrains Mono',monospace" font-size="10" fill="#8a8780">Service Logic · bcrypt · Nilai</text>
+        <text x="415" y="352" text-anchor="middle" dominant-baseline="central" font-family="'JetBrains Mono',monospace" font-size="10" fill="#2d6a4f">Layer 2 — Business</text>
+
+        <!-- Layer 3: Data -->
+        <rect x="548" y="302" width="192" height="60" rx="7" fill="#ffffff" stroke="#d8d4cc" stroke-width="0.8"/>
+        <text x="644" y="320" text-anchor="middle" dominant-baseline="central" font-family="'Source Sans 3',sans-serif" font-size="12" font-weight="600" fill="#1a1814">Lapisan Data</text>
+        <text x="644" y="337" text-anchor="middle" dominant-baseline="central" font-family="'JetBrains Mono',monospace" font-size="10" fill="#8a8780">Repository · SQL Query</text>
+        <text x="644" y="352" text-anchor="middle" dominant-baseline="central" font-family="'JetBrains Mono',monospace" font-size="10" fill="#8b3a2a">Layer 3 — Data Access</text>
+
+        <!-- CORS label -->
+        <rect x="88" y="386" width="652" height="36" rx="5" fill="rgba(139,58,42,0.06)" stroke="#d8d4cc" stroke-width="0.5"/>
+        <text x="414" y="408" text-anchor="middle" dominant-baseline="central" font-family="'JetBrains Mono',monospace" font-size="11" fill="#8b3a2a">⚙ CORS terbatas: hanya localhost:3000 · Middleware autentikasi terpusat</text>
+
+        <!-- Arrow L3 -> DB -->
+        <line x1="644" y1="462" x2="644" y2="484" stroke="#b8b4ac" stroke-width="1.5" marker-end="url(#arr)"/>
+
+        <!-- DB -->
+        <rect x="520" y="484" width="250" height="26" rx="8" fill="#1a1814" stroke="none"/>
+        <text x="645" y="500" text-anchor="middle" dominant-baseline="central" font-family="'Source Sans 3',sans-serif" font-size="12" font-weight="600" fill="#faf9f6">MySQL / MariaDB Database</text>
+
+        <!-- Legend -->
+        <rect x="72" y="484" width="14" height="14" rx="2" fill="none" stroke="#2d5a8e" stroke-width="1" stroke-dasharray="3 2"/>
+        <text x="90" y="491" dominant-baseline="central" font-family="'JetBrains Mono',monospace" font-size="10" fill="#8a8780">Frontend</text>
+        <rect x="160" y="484" width="14" height="14" rx="2" fill="none" stroke="#8b3a2a" stroke-width="1" stroke-dasharray="3 2"/>
+        <text x="178" y="491" dominant-baseline="central" font-family="'JetBrains Mono',monospace" font-size="10" fill="#8a8780">Backend</text>
+        <rect x="240" y="484" width="14" height="14" rx="2" fill="#1a1814" stroke="none"/>
+        <text x="258" y="491" dominant-baseline="central" font-family="'JetBrains Mono',monospace" font-size="10" fill="#8a8780">Database</text>
+      </svg>
+      <div class="diagram-caption">Gambar 1 — Diagram Arsitektur Logika Platform Ujian Digital</div>
+    </div>
+
+    <p>Komunikasi antara frontend dan backend sepenuhnya dilakukan melalui <strong>REST API berbasis JSON</strong>. Frontend di-render di port <code>3000</code>, sedangkan backend Golang Gin berjalan di port <code>8080</code>. Konfigurasi CORS membatasi akses hanya dari origin lokal.</p>
+  </div>
+
+  <!-- §4 ALUR DATA -->
+  <div class="section" id="s4">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2>Alur Data Fitur Utama</h2>
+    </div>
+    <p>Berikut adalah alur data untuk setiap fitur utama, yang menggambarkan interaksi antara lapisan frontend, backend, dan database.</p>
+
+    <h3 style="font-family:'Playfair Display',serif; font-size:17px; color:var(--ink); margin:24px 0 8px;">4.1 Registrasi &amp; Login</h3>
+    <table class="flow-table">
+      <thead>
+        <tr><th>Langkah</th><th>Komponen</th><th>Proses</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>Frontend (Form)</td><td>Pengguna mengisi formulir → Next.js mengirim <code>POST /api/register</code> atau <code>POST /api/login</code></td></tr>
+        <tr><td>2</td><td>Handler (Layer 1)</td><td>Menerima request JSON, memvalidasi input, meneruskan ke Service</td></tr>
+        <tr><td>3</td><td>Service (Layer 2)</td><td><strong>Registrasi:</strong> hash password dengan bcrypt → simpan ke DB. <strong>Login:</strong> <code>bcrypt.CompareHashAndPassword</code>, cek role</td></tr>
+        <tr><td>4</td><td>Repository (Layer 3)</td><td>Eksekusi query SQL <code>INSERT</code> atau <code>SELECT</code> ke tabel <code>users</code></td></tr>
+        <tr><td>5</td><td>Frontend (Context)</td><td>Login sukses → data user disimpan di <code>UserContext</code> → redirect ke dashboard sesuai role</td></tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-family:'Playfair Display',serif; font-size:17px; color:var(--ink); margin:28px 0 8px;">4.2 Pengerjaan Ujian (Siswa)</h3>
+    <table class="flow-table">
+      <thead>
+        <tr><th>Langkah</th><th>Komponen</th><th>Proses</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>Frontend</td><td><code>GET /api/siswa/ujian-tersedia</code> → tampilkan daftar ujian yang belum dikerjakan</td></tr>
+        <tr><td>2</td><td>Frontend</td><td>Siswa klik "Mulai" → <code>GET /api/siswa/ujian/:id</code> → ambil soal-soal</td></tr>
+        <tr><td>3</td><td>Frontend</td><td>Siswa menjawab soal satu per satu; jawaban dibandingkan di frontend untuk soal pilihan ganda</td></tr>
+        <tr><td>4</td><td>Frontend</td><td>Selesai → <code>POST /api/siswa/submit-jawaban</code> dengan payload jawaban lengkap</td></tr>
+        <tr><td>5</td><td>Service (Layer 2)</td><td>Hitung nilai otomatis, simpan hasil ke tabel <code>hasil_ujian</code> dengan kolom <code>detail_jawaban</code> (JSON)</td></tr>
+        <tr><td>6</td><td>Frontend</td><td>Tampilkan nilai, redirect ke dashboard siswa</td></tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-family:'Playfair Display',serif; font-size:17px; color:var(--ink); margin:28px 0 8px;">4.3 Pembuatan Ujian (Guru)</h3>
+    <table class="flow-table">
+      <thead>
+        <tr><th>Langkah</th><th>Komponen</th><th>Proses</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>Frontend (Form)</td><td>Guru mengisi judul, mata pelajaran, durasi, dan soal-soal</td></tr>
+        <tr><td>2</td><td>Frontend</td><td><code>POST /api/ujian</code> dengan payload lengkap ujian + array soal</td></tr>
+        <tr><td>3</td><td>Service (Layer 2)</td><td>Validasi data, buat record di tabel <code>ujian</code> dan <code>soal</code></td></tr>
+        <tr><td>4</td><td>Repository (Layer 3)</td><td><code>INSERT</code> ke tabel <code>ujian</code>, kemudian loop <code>INSERT</code> soal satu per satu</td></tr>
+        <tr><td>5</td><td>Frontend</td><td>Respons sukses → ujian langsung tersedia untuk siswa</td></tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-family:'Playfair Display',serif; font-size:17px; color:var(--ink); margin:28px 0 8px;">4.4 Monitoring Siswa Online</h3>
+    <table class="flow-table">
+      <thead>
+        <tr><th>Langkah</th><th>Interval</th><th>Proses</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Ping Siswa</td><td>Setiap 30 detik</td><td>Saat siswa login dan membuka dashboard, frontend mengirim <code>POST /api/update-activity</code> secara periodik; backend memperbarui kolom <code>last_active</code> di tabel <code>users</code></td></tr>
+        <tr><td>Polling Guru</td><td>Setiap 10 detik</td><td>Dashboard guru memanggil <code>GET /api/active-students</code>; backend mengambil siswa dengan <code>last_active</code> dalam 60 detik terakhir</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- §5 DATABASE -->
+  <div class="section" id="s5">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <h2>Skema Database</h2>
+    </div>
+    <p>Database terdiri dari <strong>5 tabel utama</strong> yang dirancang dengan normalisasi sederhana untuk mendukung semua fitur aplikasi. Relasi antar tabel menggunakan foreign key implisit yang ditangani oleh lapisan repository.</p>
+
+    <div class="schema-grid">
+      <!-- users -->
+      <div class="table-card">
+        <div class="table-card-head">users <span class="pk">PK</span></div>
+        <div class="table-card-row"><span class="col-name"><span class="badge-pk">◆</span>id</span><span class="col-type">INT AUTO_INC</span></div>
+        <div class="table-card-row"><span class="col-name">username</span><span class="col-type">VARCHAR(100)</span></div>
+        <div class="table-card-row"><span class="col-name">email</span><span class="col-type">VARCHAR(100)</span></div>
+        <div class="table-card-row"><span class="col-name">password</span><span class="col-type">VARCHAR(255)</span></div>
+        <div class="table-card-row"><span class="col-name">role</span><span class="col-type">ENUM(siswa,guru)</span></div>
+        <div class="table-card-row"><span class="col-name">last_active</span><span class="col-type">TIMESTAMP</span></div>
+        <div class="table-card-row"><span class="col-name">created_at</span><span class="col-type">TIMESTAMP</span></div>
+      </div>
+
+      <!-- ujian -->
+      <div class="table-card">
+        <div class="table-card-head">ujian <span class="pk">PK</span></div>
+        <div class="table-card-row"><span class="col-name"><span class="badge-pk">◆</span>id</span><span class="col-type">INT AUTO_INC</span></div>
+        <div class="table-card-row"><span class="col-name">judul</span><span class="col-type">VARCHAR(200)</span></div>
+        <div class="table-card-row"><span class="col-name">mata_pelajaran</span><span class="col-type">VARCHAR(100)</span></div>
+        <div class="table-card-row"><span class="col-name">durasi</span><span class="col-type">INT (menit)</span></div>
+        <div class="table-card-row"><span class="col-name"><span class="badge-fk">→</span>guru_id</span><span class="col-type">INT (FK users)</span></div>
+        <div class="table-card-row"><span class="col-name">created_at</span><span class="col-type">TIMESTAMP</span></div>
+      </div>
+
+      <!-- soal -->
+      <div class="table-card">
+        <div class="table-card-head">soal <span class="pk">PK</span></div>
+        <div class="table-card-row"><span class="col-name"><span class="badge-pk">◆</span>id</span><span class="col-type">INT AUTO_INC</span></div>
+        <div class="table-card-row"><span class="col-name"><span class="badge-fk">→</span>ujian_id</span><span class="col-type">INT (FK ujian)</span></div>
+        <div class="table-card-row"><span class="col-name">teks_soal</span><span class="col-type">TEXT</span></div>
+        <div class="table-card-row"><span class="col-name">tipe</span><span class="col-type">ENUM(pg,esai)</span></div>
+        <div class="table-card-row"><span class="col-name">pilihan</span><span class="col-type">JSON (untuk PG)</span></div>
+        <div class="table-card-row"><span class="col-name">jawaban_benar</span><span class="col-type">TEXT</span></div>
+        <div class="table-card-row"><span class="col-name">penjelasan</span><span class="col-type">TEXT</span></div>
+      </div>
+
+      <!-- hasil_ujian -->
+      <div class="table-card">
+        <div class="table-card-head">hasil_ujian <span class="pk">PK</span></div>
+        <div class="table-card-row"><span class="col-name"><span class="badge-pk">◆</span>id</span><span class="col-type">INT AUTO_INC</span></div>
+        <div class="table-card-row"><span class="col-name"><span class="badge-fk">→</span>siswa_id</span><span class="col-type">INT (FK users)</span></div>
+        <div class="table-card-row"><span class="col-name"><span class="badge-fk">→</span>ujian_id</span><span class="col-type">INT (FK ujian)</span></div>
+        <div class="table-card-row"><span class="col-name">nilai</span><span class="col-type">FLOAT</span></div>
+        <div class="table-card-row"><span class="col-name">detail_jawaban</span><span class="col-type">JSON</span></div>
+        <div class="table-card-row"><span class="col-name">submitted_at</span><span class="col-type">TIMESTAMP</span></div>
+      </div>
+
+      <!-- sessions (opsional) -->
+      <div class="table-card">
+        <div class="table-card-head">sessions</div>
+        <div class="table-card-row"><span class="col-name"><span class="badge-pk">◆</span>id</span><span class="col-type">INT AUTO_INC</span></div>
+        <div class="table-card-row"><span class="col-name"><span class="badge-fk">→</span>user_id</span><span class="col-type">INT (FK users)</span></div>
+        <div class="table-card-row"><span class="col-name">token</span><span class="col-type">VARCHAR(255)</span></div>
+        <div class="table-card-row"><span class="col-name">created_at</span><span class="col-type">TIMESTAMP</span></div>
+        <div class="table-card-row"><span class="col-name">expires_at</span><span class="col-type">TIMESTAMP</span></div>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top:20px;">
+      <p><strong>Keterangan:</strong> <span class="badge-pk">◆</span> = Primary Key &nbsp;|&nbsp; <span class="badge-fk">→</span> = Foreign Key. Kolom <code>detail_jawaban</code> pada tabel <code>hasil_ujian</code> menyimpan array JSON berisi teks soal, jawaban siswa, jawaban benar, dan penjelasan — memungkinkan riwayat pembahasan tanpa query tambahan.</p>
+    </div>
+
+    <!-- Diagram Relasi -->
+    <div class="diagram-wrap" style="margin-top:20px;">
+      <svg width="100%" viewBox="0 0 820 160" role="img">
+        <title>Diagram Relasi Tabel Database</title>
+        <desc>Relasi antar tabel: users berhubungan dengan ujian (guru_id) dan hasil_ujian (siswa_id), ujian berhubungan dengan soal dan hasil_ujian</desc>
+        <defs>
+          <marker id="arr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+            <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </marker>
+        </defs>
+
+        <rect x="20" y="55" width="110" height="50" rx="8" fill="#1a1814" stroke="none"/>
+        <text x="75" y="80" text-anchor="middle" dominant-baseline="central" font-family="'JetBrains Mono',monospace" font-size="12" font-weight="500" fill="#faf9f6">users</text>
+        <text x="75" y="95" text-anchor="middle" dominant-baseline="central" font-family="'JetBrains Mono',monospace" font-size="10" fill="rgba(250,249,246,0.45)">id, role, …</text>
+
+        <rect x="210" y="20" width="120" height="50" rx="8" fill="#2d3e50" stroke="none"/>
+        <text x="270" y="42" text-anchor="middle" dominant-baseline="central" font-family="'JetBrains Mono',monospace" font-size="12" font-weight="500" fill="#faf9f6">ujian</text>
+        <text x="270" y="57" text-anchor="middle" dominant-baseline="central" font-family="'JetBrains Mono',monospace" font-size="10" fill="rgba(250,249,246,0.45)">guru_id → users</text>
+
+        <rect x="210" y="90" width="120" height="50" rx="8" fill="#3d2e1e" stroke="none"/>
+        <text x="270" y="112" text-anchor="middle" dominant-baseline="central" font-family="'JetBrains Mono',monospace" font-size="12" font-weight="500" fill="#faf9f6">hasil_ujian</text>
+        <text x="270" y="127" text-anchor="middle" dominant-baseline="central" font-family="'JetBrains Mono',monospace" font-size="10" fill="rgba(250,249,246,0.45)">siswa_id, ujian_id</text>
+
+        <rect x="430" y="20" width="110" height="50" rx="8" fill="#2d3e2d" stroke="none"/>
+        <text x="485" y="42" text-anchor="middle" dominant-baseline="central" font-family="'JetBrains Mono',monospace" font-size="12" font-weight="500" fill="#faf9f6">soal</text>
+        <text x="485" y="57" text-anchor="middle" dominant-baseline="central" font-family="'JetBrains Mono',monospace" font-size="10" fill="rgba(250,249,246,0.45)">ujian_id → ujian</text>
+
+        <!-- Connector lines -->
+        <line x1="130" y1="60" x2="210" y2="45" stroke="#b8b4ac" stroke-width="1" marker-end="url(#arr2)"/>
+        <text x="165" y="45" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="#8a8780">1:N guru</text>
+
+        <line x1="130" y1="100" x2="210" y2="115" stroke="#b8b4ac" stroke-width="1" marker-end="url(#arr2)"/>
+        <text x="165" y="118" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="#8a8780">1:N siswa</text>
+
+        <line x1="330" y1="45" x2="430" y2="45" stroke="#b8b4ac" stroke-width="1" marker-end="url(#arr2)"/>
+        <text x="380" y="38" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="#8a8780">1:N soal</text>
+
+        <line x1="330" y1="115" x2="430" y2="55" stroke="#b8b4ac" stroke-width="1" marker-end="url(#arr2)"/>
+        <text x="395" y="100" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="#8a8780">N:1 ujian</text>
+
+        <!-- Legend -->
+        <rect x="610" y="55" width="90" height="50" rx="6" fill="#2a2a2a" stroke="#444" stroke-width="0.5"/>
+        <text x="655" y="72" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="rgba(255,255,255,0.4)">RELASI</text>
+        <text x="655" y="87" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="rgba(255,255,255,0.55)">1:N = satu ke banyak</text>
+        <text x="655" y="98" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9" fill="rgba(255,255,255,0.55)">N:1 = banyak ke satu</text>
+      </svg>
+      <div class="diagram-caption">Gambar 2 — Diagram Relasi Antar Tabel</div>
+    </div>
+  </div>
+
+  <!-- §6 KEAMANAN -->
+  <div class="section" id="s6">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <h2>Keamanan Sistem</h2>
+    </div>
+    <p>Sebagai prototipe lokal, sistem menerapkan lapisan keamanan dasar yang cukup untuk melindungi data pengguna dan mencegah akses tidak sah dalam skenario demonstrasi.</p>
+
+    <div class="diagram-wrap" style="padding: 0; overflow: hidden;">
+      <table class="security-table">
+        <thead>
+          <tr>
+            <th>Aspek</th>
+            <th>Implementasi</th>
+            <th>Detail Teknis</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Hashing Password</td>
+            <td>bcrypt dengan cost factor default (10)</td>
+            <td>Golang: <code>golang.org/x/crypto/bcrypt</code>. Password plain-text tidak pernah disimpan di database.</td>
+            <td><span class="badge badge-ok">Diterapkan</span></td>
+          </tr>
+          <tr>
+            <td>Manajemen Sesi</td>
+            <td>Context API + localStorage (Next.js)</td>
+            <td>Data pengguna (id, role, token) disimpan di <code>UserContext</code> yang di-persist via localStorage. Sesi hilang saat browser ditutup.</td>
+            <td><span class="badge badge-warn">Demo saja</span></td>
+          </tr>
+          <tr>
+            <td>CORS</td>
+            <td>Dibatasi hanya origin lokal</td>
+            <td>Middleware Gin: <code>cors.AllowOrigins(["http://localhost:3000"])</code>. Mencegah cross-origin request dari domain lain.</td>
+            <td><span class="badge badge-ok">Diterapkan</span></td>
+          </tr>
+          <tr>
+            <td>Otorisasi Peran</td>
+            <td>Pengecekan role di setiap handler</td>
+            <td>Setiap endpoint sensitif (guru/siswa) memverifikasi role dari payload sesi sebelum memproses request.</td>
+            <td><span class="badge badge-ok">Diterapkan</span></td>
+          </tr>
+          <tr>
+            <td>JWT / Token</td>
+            <td>Belum diimplementasikan</td>
+            <td>Autentikasi berbasis token stateless (JWT) belum diterapkan. Direkomendasikan untuk versi produksi.</td>
+            <td><span class="badge badge-warn">Belum ada</span></td>
+          </tr>
+          <tr>
+            <td>HTTPS / TLS</td>
+            <td>Tidak diperlukan (lokal)</td>
+            <td>Koneksi berjalan melalui HTTP di localhost. Untuk deployment, wajib menggunakan TLS/HTTPS.</td>
+            <td><span class="badge badge-info">Lokal saja</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- §7 KEUNGGULAN & KETERBATASAN -->
+  <div class="section" id="s7">
+    <div class="section-header">
+      <span class="section-num">07</span>
+      <h2>Keunggulan &amp; Keterbatasan</h2>
+    </div>
+    <p>Sebagai prototipe demo lokal, sistem ini memiliki keunggulan yang menonjol sekaligus keterbatasan yang perlu ditangani sebelum digunakan dalam lingkungan produksi.</p>
+
+    <div class="pro-con">
+      <div class="pro-box">
+        <h4>Keunggulan</h4>
+        <ul>
+          <li>Arsitektur tiga lapisan memisahkan tanggung jawab dengan jelas, mempermudah pemeliharaan kode</li>
+          <li>Penilaian ujian dilakukan otomatis oleh backend, mengurangi beban guru</li>
+          <li>Riwayat ujian lengkap dengan pembahasan membantu proses belajar siswa secara mandiri</li>
+          <li>Monitoring real-time memungkinkan guru memantau kehadiran siswa tanpa alat tambahan</li>
+          <li>Stack teknologi modern (Next.js + Golang) memberikan performa tinggi dan DX yang baik</li>
+          <li>Password di-hash dengan bcrypt, memenuhi standar keamanan dasar</li>
+        </ul>
+      </div>
+      <div class="con-box">
+        <h4>Keterbatasan</h4>
+        <ul>
+          <li>Tidak ada JWT/token stateless — sesi rentan terhadap manipulasi di lingkungan tidak aman</li>
+          <li>Monitoring menggunakan polling (bukan WebSocket), kurang efisien untuk skala besar</li>
+          <li>CORS hanya untuk localhost — perlu konfigurasi ulang untuk deployment multi-host</li>
+          <li>Belum ada mekanisme refresh token atau manajemen sesi yang kedaluwarsa</li>
+          <li>Fitur hapus ujian yang sudah ada hasil belum dilindungi dengan validasi integritas data</li>
+          <li>Terbatas untuk lingkungan lokal; belum siap untuk deployment cloud tanpa refactoring keamanan</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top:24px; border-left-color: var(--accent-alt);">
+      <p><strong>Rekomendasi pengembangan lanjutan:</strong> Implementasi JWT untuk autentikasi stateless, migrasi polling ke WebSocket untuk monitoring efisien, penambahan rate limiting pada endpoint login, serta migrasi ke Docker Compose untuk kemudahan deployment.</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="doc-footer">
+  <span>Platform Ujian Digital — Dokumen Teknis v1.0</span>
+  <span>Arsitektur: Monolitik Berlapis · Next.js + Golang Gin + MySQL</span>
+  <span>April 2026</span>
+</div>
+
+</body>
+</html>
