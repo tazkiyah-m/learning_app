@@ -2,20 +2,14 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #1f2937; /* gray-800, bukan putih */
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
+/* Nonaktifkan dark mode otomatis agar tidak mengubah warna jadi putih */
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #f9fafb;
+    --foreground: #1f2937; /* tetap gelap */
   }
 }
 
@@ -23,4 +17,34 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Paksa semua teks input, textarea, select, label menjadi hitam/gelap */
+input,
+textarea,
+select,
+label {
+  color: #1f2937 !important;
+  background-color: #ffffff !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #9ca3af !important;
+}
+
+/* Tombol dengan latar biru/hijau/merah tetap putih teksnya */
+.bg-blue-600,
+.bg-blue-700,
+.bg-green-600,
+.bg-red-600,
+button.bg-blue-600,
+button.bg-blue-700 {
+  color: white !important;
+}
+
+/* Radio button dan checkbox tetap normal */
+input[type="radio"],
+input[type="checkbox"] {
+  accent-color: #2563eb;
 }
